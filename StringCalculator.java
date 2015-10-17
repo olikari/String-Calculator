@@ -21,7 +21,6 @@ public class StringCalculator{
 			// muna að kasta Exception hérna
 			System.out.print("\nNegatives not allowed: ");
 			System.out.print(negNumbers + "\n");
-			System.out.print("\n");
 			return 0;
 		}
 		else if(input.isEmpty()){
@@ -49,6 +48,25 @@ public class StringCalculator{
 			}
 			return returnValue;
 		}
+		/*else if(input.charAt(3) == '['){
+			int hi = 0, lo = 0;
+			
+			while(input.charAt(hi) != ']'){
+				if(input.charAt(hi) == '['){
+					lo = hi;
+				}
+				hi++;
+			}
+			String delimiter = input.substring(lo, hi);
+			int cutter = delimiter.length() + 3;
+			String newString = input.substring(cutter);
+			String[] token = newString.split(delimiter);
+			int returnValue = 0;
+			for(int i = 0; i < token.length; i++){
+				returnValue += Integer.parseInt(token[i]);
+			}
+			return returnValue;
+		}*/
 		else{
 			return Integer.parseInt(input);
 		}		
@@ -82,5 +100,9 @@ public class StringCalculator{
 		int add6 = myCalc.add("10002,10003,10,1001,999");
 		System.out.println("\nHér á að prentast 1009");
 		System.out.println(add6);
+
+		//int add7 = myCalc.add("//[***]\n1***2***3");
+		//System.out.println("\nHér á að prentast 6");
+		//System.out.println(add7);
 	}
 }
