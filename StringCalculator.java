@@ -3,13 +3,13 @@ public class StringCalculator{
 	public static class NegException extends Exception {
 		public NegException(String msg){
 			super(msg);
-		}
+		}	
 	}
 
 	public static int add(String input) {
 
 		if(input.contains("-")) {
-
+			//throw new NegException("Negatives not allowed: ");
 			String[] token = input.split("[,]");
 			String negNumbers = "";
 			for(int i = 0; i < token.length; i++){
@@ -27,12 +27,40 @@ public class StringCalculator{
 			return 0;
 		}
 		else if(input.charAt(0) == '/'){
-			String newString = input.substring(4);	
-			String[] token = newString.split("[;]");
 			int returnValue = 0;
+			if(input.contains("[")){
+				int lo = 0, hi = 0;
+				while(input.charAt(hi) != ']'){
+					if(input.charAt(hi) == '['){
+						lo = hi;
+					}
+					hi++;
+				}
+				String delimiter = input.substring(lo+1,hi);
+				//System.out.print("delimiter--------->" + delimiter);
+				int cutter = delimiter.length() + 5;
+				String splitInput = "\"" + "[" + delimiter + "]" + "\"";
+				//System.out.print("Split Input--------> " + splitInput + "\n");
+				String newInput = input.substring(cutter);
+				//System.out.print("InputString-------->" + newInput + "\n");
+				String[] token = newInput.split("[\\***]");
+				//System.out.print("token0----------->" + token[0] + "\n");
+				//System.out.print("token1----------->" + token[1] + "\n");
 
-			for(int i = 0; i < token.length; i++){
-				returnValue += Integer.parseInt(token[i]);
+				/*for(int i = 0; i < token.length; i++){
+					String temp = token[i];
+					System.out.print("loopa" + token[i]);
+					returnValue += Integer.parseInt(temp);
+				}
+				System.out.print("---------------> " + delimiter + "\n");*/
+			}
+			else{
+				String newString = input.substring(4);	
+				String[] token = newString.split("[;]");
+
+				for(int i = 0; i < token.length; i++){
+					returnValue += Integer.parseInt(token[i]);
+				}
 			}
 			return returnValue;
 		}
@@ -48,25 +76,6 @@ public class StringCalculator{
 			}
 			return returnValue;
 		}
-		/*else if(input.charAt(3) == '['){
-			int hi = 0, lo = 0;
-			
-			while(input.charAt(hi) != ']'){
-				if(input.charAt(hi) == '['){
-					lo = hi;
-				}
-				hi++;
-			}
-			String delimiter = input.substring(lo, hi);
-			int cutter = delimiter.length() + 3;
-			String newString = input.substring(cutter);
-			String[] token = newString.split(delimiter);
-			int returnValue = 0;
-			for(int i = 0; i < token.length; i++){
-				returnValue += Integer.parseInt(token[i]);
-			}
-			return returnValue;
-		}*/
 		else{
 			return Integer.parseInt(input);
 		}		
