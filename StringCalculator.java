@@ -1,12 +1,24 @@
 public class StringCalculator{
 
 	public static int add(String input){
+
 		if(input.isEmpty()){
 			return 0;
+		}
+		else if(input.charAt(0) == '/'){
+			String newString = input.substring(4);	
+			String[] token = newString.split("[;]");
+			int returnValue = 0;
+
+			for(int i = 0; i < token.length; i++){
+				returnValue += Integer.parseInt(token[i]);
+			}
+			return returnValue;
 		}
 		else if(input.contains(",")){
 			String[] token = input.split("[,\n]");
 			int returnValue = 0;
+
 			for(int i = 0; i < token.length; i++){
 				returnValue += Integer.parseInt(token[i]);
 			}
@@ -35,5 +47,9 @@ public class StringCalculator{
 		int add3 = myCalc.add("1\n2,3,10,10\n10\n10");
 		System.out.println("\nHér á að prentast 46");
 		System.out.println(add3);
+
+		int add4 = myCalc.add("//;\n1;2;10;10");
+		System.out.println("\nHér á að prentast 23");
+		System.out.println(add4);
 	}
 }
