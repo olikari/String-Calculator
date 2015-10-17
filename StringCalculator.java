@@ -6,7 +6,11 @@ public class StringCalculator{
 		}
 		else if(input.contains(",")){
 			String[] token = input.split(",");
-			return Integer.parseInt(token[0]) + Integer.parseInt(token[1]);
+			int returnValue = 0;
+			for(int i = 0; i < token.length; i++){
+				returnValue += Integer.parseInt(token[i]);
+			}
+			return returnValue;
 		}
 		else{
 			return Integer.parseInt(input);
@@ -16,8 +20,8 @@ public class StringCalculator{
 	public static void main(String[] args){
 		StringCalculator myCalc = new StringCalculator();
 
-		int add = myCalc.add("11,22");
-		System.out.println("Hér á að prentast 33");
+		int add = myCalc.add("11,22,10,10,10");
+		System.out.println("Hér á að prentast 63");
 		System.out.println(add);
 
 		int add1 = myCalc.add("50");
