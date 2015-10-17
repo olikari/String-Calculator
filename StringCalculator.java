@@ -1,8 +1,30 @@
 public class StringCalculator{
 
-	public static int add(String input){
+	public static class NegException extends Exception {
+		public NegException(String msg){
+			super(msg);
+		}
+	}
 
-		if(input.isEmpty()){
+	public static int add(String input) {
+
+		if(input.contains("-")) {
+
+			String[] token = input.split("[,]");
+			String negNumbers = "";
+			for(int i = 0; i < token.length; i++){
+				int temp = Integer.parseInt(token[i]);
+				if(temp < 0){
+					negNumbers += token[i] + ",";
+				}
+			}
+			// muna að kasta Exception hérna
+			System.out.print("\nNegatives not allowed: ");
+			System.out.print(negNumbers + "\n");
+			System.out.print("\n");
+			return 0;
+		}
+		else if(input.isEmpty()){
 			return 0;
 		}
 		else if(input.charAt(0) == '/'){
@@ -20,7 +42,10 @@ public class StringCalculator{
 			int returnValue = 0;
 
 			for(int i = 0; i < token.length; i++){
-				returnValue += Integer.parseInt(token[i]);
+				int temp = Integer.parseInt(token[i]);
+				if(temp < 1000){
+					returnValue += Integer.parseInt(token[i]);
+				}
 			}
 			return returnValue;
 		}
@@ -51,5 +76,11 @@ public class StringCalculator{
 		int add4 = myCalc.add("//;\n1;2;10;10");
 		System.out.println("\nHér á að prentast 23");
 		System.out.println(add4);
+
+		int add5 = myCalc.add("8,-2,6,-4,2,-6");
+
+		int add6 = myCalc.add("10002,10003,10,1001,999");
+		System.out.println("\nHér á að prentast 1009");
+		System.out.println(add6);
 	}
 }
