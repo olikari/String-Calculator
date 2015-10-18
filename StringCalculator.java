@@ -41,7 +41,7 @@ public class StringCalculator{
 				int cutter = delimiter.length() + 5;
 				//String splitInput = "\"" + "[" + delimiter.charAt(0) + "]" + "+" + "\"";
 				//System.out.print("Split Input--------> " + splitInput + "\n");
-				String newInput = input.substring(8);
+				String newInput = input.substring(cutter);
 				//System.out.print("InputString-------->" + newInput + "\n");
 				String[] token = newInput.split("[" + delimiter.charAt(0) + "]+");
 				//System.out.print("token0----------->" + token[0] + "\n");
@@ -111,5 +111,9 @@ public class StringCalculator{
 		int add7 = myCalc.add("//[***]\n1***2***3");
 		System.out.println("\nHér á að prentast 6");
 		System.out.println(add7);
+
+		int add8 = myCalc.add("//[++++]\n10++++10++++10++++10");
+		System.out.println("\nHér á að prentast 40");
+		System.out.println(add8);
 	}
 }
