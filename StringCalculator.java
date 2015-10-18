@@ -1,60 +1,44 @@
 public class StringCalculator{
-
-	public static class NegException extends Exception {
+	
+	static class NegException extends Exception {
 		public NegException(String msg){
 			super(msg);
 		}	
 	}
 
-	public static int add(String input) {
+	public static int add(String input) { //throws NegException {
 
-		if(input.contains("-")) {
-			//throw new NegException("Negatives not allowed: ");
-			String[] token = input.split("[,]");
-			String negNumbers = "";
-			for(int i = 0; i < token.length; i++){
-				int temp = Integer.parseInt(token[i]);
-				if(temp < 0){
-					negNumbers += token[i] + ",";
-				}
-			}
-			// muna að kasta Exception hérna
-			System.out.print("\nNegatives not allowed: ");
-			System.out.print(negNumbers + "\n");
-			return 0;
-		}
-		else if(input.isEmpty()){
+		if(input.isEmpty()){
 			return 0;
 		}
 		else if(input.charAt(0) == '/'){
+			
 			int returnValue = 0;
+		
 			if(input.contains("[")){
-				int lo = 0, hi = 0;
-				while(input.charAt(hi) != ']'){
-					if(input.charAt(hi) == '['){
-						lo = hi;
+				int k = 0;
+				String multDelim = "";
+				while(input.charAt(k) != '\n'){
+					if(input.charAt(k) == '['){
+						multDelim += input.charAt(k+1);
+						// ef margir eins delim i rod
+						if(input.charAt(k+1) == input.charAt(k+2)){
+							while(input.charAt(k+1) != ']'){
+								k++;
+							}	
+						}
 					}
-					hi++;
+					k++;
 				}
-				String delimiter = input.substring(lo+1,hi);
-				//System.out.print("delimiter--------->" + delimiter);
-				int cutter = delimiter.length() + 5;
-				//String splitInput = "\"" + "[" + delimiter.charAt(0) + "]" + "+" + "\"";
-				//System.out.print("Split Input--------> " + splitInput + "\n");
-				String newInput = input.substring(cutter);
-				//System.out.print("InputString-------->" + newInput + "\n");
-				String[] token = newInput.split("[" + delimiter.charAt(0) + "]+");
-				//System.out.print("token0----------->" + token[0] + "\n");
-				//System.out.print("token1----------->" + token[1] + "\n");
-
+				String multInput = input.substring(k+1);
+				String[] token = multInput.split("[" + multDelim + "]" + "+");
 				for(int i = 0; i < token.length; i++){
 					returnValue += Integer.parseInt(token[i]);
 				}
-				//System.out.print("---------------> " + delimiter + "\n");
 			}
 			else{
 				String newString = input.substring(4);	
-				String[] token = newString.split("[;]");
+				String[] token = newString.split("[" + input.charAt(2) + "]");
 
 				for(int i = 0; i < token.length; i++){
 					returnValue += Integer.parseInt(token[i]);
@@ -65,12 +49,20 @@ public class StringCalculator{
 		else if(input.contains(",")){
 			String[] token = input.split("[,\n]");
 			int returnValue = 0;
-
+			boolean negFound = false;
+			String negNumbers = "";
 			for(int i = 0; i < token.length; i++){
 				int temp = Integer.parseInt(token[i]);
 				if(temp < 1000){
 					returnValue += Integer.parseInt(token[i]);
 				}
+				if(temp < 0){
+					negFound = true;
+					negNumbers += token[i] + ",";
+				}
+			}
+			if(negFound){
+				//throw new NegException("Negatives not allowed: " + negNumbers);
 			}
 			return returnValue;
 		}
@@ -81,39 +73,67 @@ public class StringCalculator{
 
 	public static void main(String[] args){
 		StringCalculator myCalc = new StringCalculator();
-
+		
+		/*try{
+			int add5 = myCalc.add("8,-2,6,-4,2,-6");
+		}
+		catch(NegException ex){
+			ex.printStackTrace();
+		}*/
+		
+		// Test fyrir lið 2
 		int add = myCalc.add("11,22,10,10,10");
 		System.out.println("Hér á að prentast 63");
 		System.out.println(add);
-
+		
+		// Test fyrir lið 1
 		int add1 = myCalc.add("50");
 		System.out.println("\nHér á að prentast 50");
 		System.out.println(add1);
-
+		
+		// Test fyrir lið 1
 		int add2 = myCalc.add("");
 		System.out.println("\nHér á að prentast 0");
 		System.out.println(add2);
-
+		
+		// Test fyrir lið 3
 		int add3 = myCalc.add("1\n2,3,10,10\n10\n10");
 		System.out.println("\nHér á að prentast 46");
 		System.out.println(add3);
-
+		
+		// Test fyrir lið 4
 		int add4 = myCalc.add("//;\n1;2;10;10");
 		System.out.println("\nHér á að prentast 23");
 		System.out.println(add4);
-
-		int add5 = myCalc.add("8,-2,6,-4,2,-6");
-
+		
+		// Test fyrir lið 4
+		int add5 = myCalc.add("//=\n2=2=2=2=2");
+		System.out.println("\nHér á að prentast 10");
+		System.out.println(add5);
+		
+		// Test fyrir lið 6
 		int add6 = myCalc.add("10002,10003,10,1001,999");
 		System.out.println("\nHér á að prentast 1009");
 		System.out.println(add6);
-
+		
+		// Test fyrir lið 7
 		int add7 = myCalc.add("//[***]\n1***2***3");
 		System.out.println("\nHér á að prentast 6");
 		System.out.println(add7);
-
+		
+		// Test fyrir lið 7
 		int add8 = myCalc.add("//[++++]\n10++++10++++10++++10");
 		System.out.println("\nHér á að prentast 40");
 		System.out.println(add8);
+
+		// Test fyrir lið 8
+		int add9 = myCalc.add("//[*][%][$]\n1*2%3$4");
+		System.out.println("\nHér á að prentast 10");
+		System.out.println(add9);
+		
+		// Test fyrir lið 9
+		int add10 = myCalc.add("//[***][%%%%%][}}}]\n10%%%%%10}}}10***10***10");
+		System.out.println("\nHér á að prentast 50");
+		System.out.println(add10);
 	}
 }
