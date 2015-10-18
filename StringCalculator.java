@@ -39,20 +39,18 @@ public class StringCalculator{
 				String delimiter = input.substring(lo+1,hi);
 				//System.out.print("delimiter--------->" + delimiter);
 				int cutter = delimiter.length() + 5;
-				String splitInput = "\"" + "[" + delimiter + "]" + "\"";
+				//String splitInput = "\"" + "[" + delimiter.charAt(0) + "]" + "+" + "\"";
 				//System.out.print("Split Input--------> " + splitInput + "\n");
-				String newInput = input.substring(cutter);
+				String newInput = input.substring(8);
 				//System.out.print("InputString-------->" + newInput + "\n");
-				String[] token = newInput.split("[\\***]");
+				String[] token = newInput.split("[" + delimiter.charAt(0) + "]+");
 				//System.out.print("token0----------->" + token[0] + "\n");
 				//System.out.print("token1----------->" + token[1] + "\n");
 
-				/*for(int i = 0; i < token.length; i++){
-					String temp = token[i];
-					System.out.print("loopa" + token[i]);
-					returnValue += Integer.parseInt(temp);
+				for(int i = 0; i < token.length; i++){
+					returnValue += Integer.parseInt(token[i]);
 				}
-				System.out.print("---------------> " + delimiter + "\n");*/
+				//System.out.print("---------------> " + delimiter + "\n");
 			}
 			else{
 				String newString = input.substring(4);	
@@ -110,8 +108,8 @@ public class StringCalculator{
 		System.out.println("\nHér á að prentast 1009");
 		System.out.println(add6);
 
-		//int add7 = myCalc.add("//[***]\n1***2***3");
-		//System.out.println("\nHér á að prentast 6");
-		//System.out.println(add7);
+		int add7 = myCalc.add("//[***]\n1***2***3");
+		System.out.println("\nHér á að prentast 6");
+		System.out.println(add7);
 	}
 }
